@@ -26,3 +26,10 @@ CREATE TABLE sites_qr_code (
     CONSTRAINT PK_user PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES sites_user(id)
 );
+
+CREATE TABLE sites_rarity (
+    id int AUTO_INCREMENT,
+    strength int NOT NULL,
+    color_code varchar(255) NOT NULL,
+    CONSTRAINT PK_rarity PRIMARY KEY (id),
+);
