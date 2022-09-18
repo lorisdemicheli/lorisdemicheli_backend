@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 let sql = require('../util/sql');
-
+const image = require('../services/image');
+const jwtManager = require('../manager/jwtManager');
 
 router.get('/:username', async (req, res) => {
   let sqlRes = await sql.query('SELECT * FROM sites_user WHERE username = ?', [req.params.username]);
@@ -20,8 +21,12 @@ router.get('/:username/match', async (req, res) => {
   res.json(sqlRes);
 });
 
-
-
-
+router.put('/image/add', jwtManager.checkAuthorization, async (req, res) => {
+  image.uploadImage(req.body.image, req.body.imageName, async (result, error) => {
+    //TODO result get url
+    await sql.query('UPDATE sites_user SET url_image = ? WHERE id = ?', [result.urlImage, req.auth.user.id]);
+    res.status(200).json({ status: "success" });
+  });
+});
 
 module.exports = router;
