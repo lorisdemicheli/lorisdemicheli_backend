@@ -4,11 +4,14 @@ let sql = require('../util/sql');
 const jwtManager = require('../manager/jwtManager');
 
 //READ QRCODE
-//TODO metere check se è scaduto
 router.put('/:qrCode', jwtManager.checkAuthorization, async (req, res) => {
+  let sqlRes = await sql.query('SELECT id FROM sites_qr_code WHERE code = ?', [req.params.qrCode]);
+  if(sqlRes.length < 1) {
+    res.status(408 ).json({error: "code expired"});
+  }
   await sql.query('INSERT INTO sites_encounters (user_id,user_match_id,creation_date) \
                     (SELECT ?,user_id,now() FROM sites_qr_code WHERE code = ?)', [req.auth.user.id, req.params.qrCode]);
-  res.sendStatus(200);
+  res.status(200).json({status: "ok"});
 });
 
 router.post('/generate', jwtManager.checkAuthorization, async (req, res) => {
@@ -22,7 +25,7 @@ router.post('/generate', jwtManager.checkAuthorization, async (req, res) => {
                       (SELECT u.id,now(),UUID() FROM sites_user u WHERE u.id = ?)', [req.auth.user.id]);
     sqlRes = await sql.query(qrQuery, [req.auth.user.id]);
   }
-  res.status(201).json(sqlRes);
+  res.status(201).json(sqlRes[0]);
 });
 
 module.exports = router;
