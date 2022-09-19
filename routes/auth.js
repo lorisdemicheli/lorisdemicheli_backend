@@ -29,7 +29,8 @@ router.post('/login', async (req, res) => {
 
     jwt.sign({ user: sqlRes[0] }, process.env.JWT_KEY, (err, token) => {
         res.status(201).json({
-            token
+            token,
+            username: sqlRes[0].username
         });
     })
 });

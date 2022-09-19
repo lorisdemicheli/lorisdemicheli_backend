@@ -4,6 +4,7 @@ let sql = require('../util/sql');
 const jwtManager = require('../manager/jwtManager');
 
 //READ QRCODE
+//TODO metere check se è scaduto
 router.put('/:qrCode', jwtManager.checkAuthorization, async (req, res) => {
   await sql.query('INSERT INTO sites_encounters (user_id,user_match_id,creation_date) \
                     (SELECT ?,user_id,now() FROM sites_qr_code WHERE code = ?)', [req.auth.user.id, req.params.qrCode]);
