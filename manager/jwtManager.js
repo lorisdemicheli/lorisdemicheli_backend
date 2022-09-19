@@ -6,15 +6,13 @@ module.exports.checkAuthorization = function (req, res, next) {
         const bearerToken = bearerHeader.split(' ')[1];
         jwt.verify(bearerToken, process.env.JWT_KEY, (err, authData) => {
             if (err) {
-                console.log(req);
-                console.log(err);
-                res.sendStatus(403);
+                res.status(403).json({ error: "Operation not permitted" });
             } else {
                 req.auth = authData;
                 next();
             }
         });
     } else {
-        res.sendStatus(403);
+        res.status(403).json({ error: "Operation not permitted" });
     }
 }

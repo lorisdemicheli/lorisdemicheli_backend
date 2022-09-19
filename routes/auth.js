@@ -36,7 +36,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/verify', jwtManager.checkAuthorization, (req, res) => {
-    res.sendStatus(200);
+    res.status(200).json({status: 'ok'});
 });
 
 module.exports = router;
