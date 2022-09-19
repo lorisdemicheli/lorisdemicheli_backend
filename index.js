@@ -4,9 +4,9 @@ const bodyParser = require('body-parser');
 const user = require('./routes/user');
 const qrcode = require('./routes/qrcode');
 const auth = require('./routes/auth');
-//const cors = require('cors')
+const cors = require('cors')
 
-//app.use(cors())
+app.use(cors())
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json())
