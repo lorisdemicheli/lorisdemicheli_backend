@@ -10,7 +10,7 @@ router.get('/:username', async (req, res) => {
 });
 
 router.get('/:username/match', async (req, res) => {
-  let sqlRes = await sql.query('SELECT m.username,m.url_image,m.birth_date,r.color_code \
+  let sqlRes = await sql.query('SELECT m.username,m.url_image as img,m.birth_date as birthdate,r.color_code as colorCode, "" as description \
                                 FROM sites_user u \
                                 LEFT JOIN sites_encounters e ON e.user_id = u.id OR e.user_match_id = u.id \
                                 LEFT JOIN sites_user m ON m.id = if(u.id = e.user_id, e.user_match_id, e.user_id) \
