@@ -6,7 +6,7 @@ const qrcode = require('./routes/qrcode');
 const auth = require('./routes/auth');
 const cors = require('cors')
 
-app.use(cors({origin: ['http://localhost:4200','https://lorisdemicheli-github-io.vercel.app/']}))
+app.use(cors({origin: ['http://localhost:4200','https://lorisdemicheli-github-io.vercel.app']}))
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json())
