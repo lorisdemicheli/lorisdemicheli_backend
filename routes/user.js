@@ -18,14 +18,19 @@ router.get('/:username/match', async (req, res) => {
 																			WHERE ri.strength <= (SELECT COUNT(me.id) FROM sites_encounters me \
 																				WHERE me.user_id = m.id OR me.user_match_id = m.id)) \
                                 WHERE u.username = ?', [req.params.username]);
-  res.json(sqlRes);
+  res.status(200).json({
+    cards: sqlRes,
+    status: 200
+  });
 });
 
 router.put('/image/add', jwtManager.checkAuthorization, async (req, res) => {
   image.uploadImage(req.body.image, req.body.imageName, async (result, error) => {
     //TODO result get url
     await sql.query('UPDATE sites_user SET url_image = ? WHERE id = ?', [result.urlImage, req.auth.user.id]);
-    res.status(200).json({ status: "success" });
+    res.status(200).json({ 
+      status: 200 
+    });
   });
 });
 
