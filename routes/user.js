@@ -25,10 +25,13 @@ router.get('/:username/match', async (req, res) => {
 });
 
 router.put('/image/add', jwtManager.checkAuthorization, async (req, res) => {
+  console.log(req.body.image)
+  console.log(req.body.imageName)
   image.uploadImage(req.body.image, req.body.imageName, async (result, error) => {
     //TODO result get url
     await sql.query('UPDATE sites_user SET url_image = ? WHERE id = ?', [result.urlImage, req.auth.user.id]);
     res.status(200).json({ 
+      success: "uploaded image",
       status: 200 
     });
   });
