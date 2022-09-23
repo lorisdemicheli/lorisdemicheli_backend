@@ -6,6 +6,7 @@ CREATE TABLE sites_user (
     birth_date datetime DEFAULT NULL,
     CONSTRAINT PK_user PRIMARY KEY (id)
 );
+ALTER TABLE ADD COLUMN description text;
 
 CREATE TABLE sites_encounters (
     id int AUTO_INCREMENT,

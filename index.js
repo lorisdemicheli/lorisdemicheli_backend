@@ -10,7 +10,7 @@ require('dotenv').config();
 let corsOptions = {}
 if(process.env.ENVIROMENT == 'test') {
     corsOptions = {
-        origin: 'http://localhost:4200'
+        origin: 'https://localhost:4200'
     }
 } else {
     corsOptions = {
