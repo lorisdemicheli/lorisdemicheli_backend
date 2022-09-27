@@ -5,12 +5,15 @@ const image = require('../services/image');
 const jwtManager = require('../manager/jwtManager');
 
 router.get('/:username', async (req, res) => {
-  let sqlRes = await sql.query('SELECT * FROM sites_user WHERE username = ?', [req.params.username]);
-  res.json(sqlRes);
+  let sqlRes = await sql.query('SELECT username,url_image as img,birth_date as birthdate, description FROM sites_user WHERE username = ?', [req.params.username]);
+  res.status(200).json({
+    user: sqlRes[0],
+    status: 200
+  });
 });
 
 router.get('/:username/match', async (req, res) => {
-  let sqlRes = await sql.query('SELECT m.username,m.url_image as img,m.birth_date as birthdate,r.color_code as colorCode, u.description \
+  let sqlRes = await sql.query('SELECT m.username,m.url_image as img,m.birth_date as birthdate,r.color_code as colorCode, m.description \
                                 FROM sites_user u \
                                 LEFT JOIN sites_encounters e ON e.user_id = u.id OR e.user_match_id = u.id \
                                 LEFT JOIN sites_user m ON m.id = if(u.id = e.user_id, e.user_match_id, e.user_id) \
